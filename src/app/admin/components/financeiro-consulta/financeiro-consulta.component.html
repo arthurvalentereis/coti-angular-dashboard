@@ -1,1 +1,70 @@
-<p>financeiro-consulta works!</p>
+<mat-grid-list cols="1" rowHeight="4rem">
+    <mat-grid-tile>
+        <div class="text-inside-grid">
+            <h3>Consulta de Movimentações Financeiras</h3>
+            <p>Total de movimentações: {{movimentacoes.data.length}}</p>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
+<br />
+<mat-grid-list cols="1" rowHeight="3rem" *ngIf="mensagem">
+    <mat-grid-tile>
+        <div class="text-inside-grid">
+            <span>{{mensagem}}</span>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<table mat-table [dataSource]="movimentacoes" class="mat-elevation-z0">
+
+    <ng-container matColumnDef="nomeMovimentacao">
+        <th mat-header-cell *matHeaderCellDef>Nome da movimentação</th>
+        <td mat-cell *matCellDef="let element">{{element.nomeMovimentacao | uppercase}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="dataMovimentacao">
+        <th mat-header-cell *matHeaderCellDef>Data</th>
+        <td mat-cell *matCellDef="let element">{{element.dataMovimentacao | date : 'dd/MM/yyyy'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="valor">
+        <th mat-header-cell *matHeaderCellDef>Valor</th>
+        <td mat-cell *matCellDef="let element">{{element.valor | currency: 'R$ '}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="tipo">
+        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+        <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.tipo == 1">
+                RECEITA
+            </span>
+            <span *ngIf="element.tipo == 2">
+                DESPESA
+            </span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Operações</th>
+        <td mat-cell *matCellDef="let element">
+            <button [routerLink]="['/admin/financeiro-edicao', element.idMovimentacaoFinanceira]" mat-stroked-button
+                color="primary">
+                Editar
+            </button>
+            &nbsp;
+            <button mat-stroked-button color="warn" (click)="excluir(element.idMovimentacaoFinanceira)">
+                Excluir
+            </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+<br/>
+
+<mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+</mat-paginator>
+
+

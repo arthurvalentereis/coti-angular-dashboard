@@ -1,1 +1,82 @@
-<p>financeiro-cadastro works!</p>
+<mat-grid-list cols="1" rowHeight="4rem">
+    <mat-grid-tile>
+        <div class="text-inside-grid">
+            <h3>Cadastro de Movimentação Financeira</h3>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<form [formGroup]="formCadastro" (ngSubmit)="onSubmit()">
+
+    <mat-grid-list cols="4" rowHeight="6rem">
+        <mat-grid-tile>
+            <mat-form-field appearance="outline">
+                <mat-label>Nome da movimentação:</mat-label>
+                <input matInput type="text" formControlName="nomeMovimentacao" />
+                <mat-error *ngIf="form.nomeMovimentacao.touched && form.nomeMovimentacao.invalid">
+                    <div *ngIf="form.nomeMovimentacao.errors.required">
+                        Por favor, informe o nome da movimentação.
+                    </div>
+                </mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field appearance="outline">
+                <mat-label>Data:</mat-label>
+                <input matInput type="date" formControlName="dataMovimentacao" />
+                <mat-error *ngIf="form.dataMovimentacao.touched && form.dataMovimentacao.invalid">
+                    <div *ngIf="form.dataMovimentacao.errors.required">
+                        Por favor, informe a data da movimentação.
+                    </div>
+                </mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field appearance="outline">
+                <mat-label>Valor:</mat-label>
+                <input matInput type="number" min="0" value="0" step="0.01" formControlName="valor" />
+                <mat-error *ngIf="form.valor.touched && form.valor.invalid">
+                    <div *ngIf="form.valor.errors.required">
+                        Por favor, informe o valor da movimentação.
+                    </div>
+                </mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field appearance="outline">
+                <mat-label>Escolha o tipo:</mat-label>
+                <select matNativeControl formControlName="tipo">
+                    <option value="">Selecione</option>
+                    <option value="1">Receita</option>
+                    <option value="2">Despesa</option>
+                </select>
+                <mat-error *ngIf="form.tipo.touched && form.tipo.invalid">
+                    <div *ngIf="form.tipo.errors.required">
+                        Por favor, informe o tipo da movimentação.
+                    </div>
+                </mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list cols="1" rowHeight="3rem">
+        <mat-grid-tile>
+            <div class="button-inside-grid">
+                <button type="submit" mat-raised-button color="primary" [disabled]="!formCadastro.valid">
+                    Realizar Cadastro
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-grid-list cols="1" rowHeight="3rem" *ngIf="mensagem">
+        <mat-grid-tile>
+            <div class="text-inside-grid">
+                <span>{{mensagem}}</span>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+</form>
+
+

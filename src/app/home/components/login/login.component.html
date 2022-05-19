@@ -13,7 +13,9 @@
         <form [formGroup]="formLogin" (ngSubmit)="onSubmit()">
             <p>
                 <mat-form-field>
-                    <input matInput type="text" placeholder="Email de acesso:" formControlName="email" />
+                    <input matInput type="text" 
+                        placeholder="Email de acesso:" 
+                        formControlName="email" />
                     <mat-error *ngIf="form.email.touched && form.email.invalid">
                         <div *ngIf="form.email.errors.required">
                             Por favor, informe seu email.
@@ -26,7 +28,9 @@
             </p>
             <p>
                 <mat-form-field>
-                    <input matInput type="password" placeholder="Senha de acesso:" formControlName="senha" />
+                    <input matInput type="password" 
+                        placeholder="Senha de acesso:" 
+                        formControlName="senha" />
                     <mat-error *ngIf="form.senha.touched && form.senha.invalid">
                         <div *ngIf="form.senha.errors.required">
                             Por favor, informe sua senha.

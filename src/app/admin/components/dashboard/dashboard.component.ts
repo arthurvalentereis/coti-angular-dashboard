@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'angular-highcharts';
+import { FinanceiroService } from '../../services/financeiro.service';
  
 @Component({
   selector: 'app-dashboard',
@@ -8,58 +9,82 @@ import { Chart } from 'angular-highcharts';
 })
 export class DashboardComponent implements OnInit {
  
-  grafico: Chart = new Chart();
+  graficoTipos: Chart = new Chart();
+  graficoPeriodo: Chart = new Chart();
  
-  constructor() { }
+  constructor(
+    private financeiroService: FinanceiroService
+  ) { }
  
   ngOnInit(): void {
  
-    var dados: any[] = [
-      { name: 'Baixa', y: 10, color: '#5CB85C' },
-      { name: 'Média', y: 8, color: '#F0AD4E' },
-      { name: 'Alta', y: 14, color: '#D9534F' },
-    ];
- 
-    var names: any[] = [
-      ['BAIXA'], ['MÉDIA'], ['ALTA']
-    ]
- 
-    this.grafico = new Chart({
-      chart: {
-        type: 'pie',        
-      },
-      plotOptions: {
-        pie: {
-          innerSize: '60%'
+    this.financeiroService.getTiposMovimentacao()
+      .then(
+        (data) => {
+          this.graficoTipos = new Chart({
+            chart: {
+              type: 'pie',
+            },
+            plotOptions: {
+              pie: {
+                innerSize: '60%'
+              }
+            },
+            title: {
+              text: 'Comparativo Receitas / Despesas'
+            },
+            subtitle: {
+              text: 'Treinamento Angular / Infis'
+            },
+            series: [
+              { data: data as any[], type: undefined as any }
+            ],
+            legend: {
+              enabled: false
+            },
+            credits: {
+              enabled: false
+            }
+          });
         }
-      },
-      title: {
-        text: 'Gráfico Modelo'
-      },
-      subtitle: {
-        text : 'Treinamento Angular / Infis'
-      },
-      series: [
-        { data: dados, type: undefined as any }
-      ],
-      xAxis: {
-        categories: names
-      },
-      yAxis: {
-        title: {
-          text: 'Valores'
+      )
+ 
+    this.financeiroService.getPeriodoMovimentacao()
+      .then(
+        (data) => {
+          this.graficoPeriodo = new Chart({
+            chart: {
+              type: 'line',
+            },
+            title: {
+              text: 'Saldo por período'
+            },
+            subtitle: {
+              text: 'Resultado consolidado'
+            },
+            series: [
+              { data: data as any[], type: undefined as any }
+            ],
+            xAxis: {
+              title: {
+                text: 'Períodos'
+              }
+            },
+            yAxis: {
+              title: {
+                text: 'Valores'
+              }
+            },
+            legend: {
+              enabled: false
+            },
+            credits: {
+              enabled: false
+            }
+          });
         }
-      },
-      legend: {
-        enabled: false
-      },
-      credits: {
-        enabled: false
-      }
-    });
+      )
   }
- 
 }
- 
 
 

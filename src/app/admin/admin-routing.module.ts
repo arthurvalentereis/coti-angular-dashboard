@@ -24,7 +24,7 @@ const routes: Routes = [
     canActivate: [AdminGuard]
   },
   {
-    path: 'admin/financeiro-edicao',
+    path: 'admin/financeiro-edicao/:id',
     component: FinanceiroEdicaoComponent,
     canActivate: [AdminGuard]
   },
