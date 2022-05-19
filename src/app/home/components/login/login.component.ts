@@ -4,7 +4,6 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { AuthenticationHelper } from '../../helpers/authentication.helper';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
  
 @Component({
   selector: 'app-login',
@@ -19,8 +18,10 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private authenticationHelper: AuthenticationHelper,
     private spinner: NgxSpinnerService,
-    private router: Router
-  ) { }
+  ) {
+    if (this.authenticationHelper.get())
+      window.location.href = '/admin/dashboard';
+  }
  
   formLogin = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -40,8 +41,8 @@ export class LoginComponent implements OnInit {
       .then(
         (data: Authentication) => {
           this.authenticationHelper.signIn(data);
-          this.formLogin.reset();          
-          this.router.navigate(['/admin/dashboard']);
+          this.formLogin.reset();
+          window.location.href = '/admin/dashboard';
         }
       )
       .catch(
@@ -58,6 +59,5 @@ export class LoginComponent implements OnInit {
  
 }
  
-
 
 

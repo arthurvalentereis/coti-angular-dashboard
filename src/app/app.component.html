@@ -1,1 +1,52 @@
-<router-outlet></router-outlet>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#f8fe3a" type = "pacman" [fullScreen] = "true"><p style="color: white" > Eating, wait a moment... </p></ngx-spinner>
+
+<div *ngIf="auth">
+    <mat-toolbar class="mat-elevation-z8">
+        <button mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+            <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+            <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+        </button>
+        Projeto Dashboard Financeiro
+    </mat-toolbar>
+
+    <mat-sidenav-container>
+        <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+            <img class="avatar mat-elevation-z8" src="{{auth.foto}}" />
+
+            <h4 class="name">{{auth.nome}}</h4>
+            <p class="designation">{{auth.email}}</p>
+
+            <mat-divider></mat-divider>
+
+            <button mat-button class="menu-button" routerLink="/admin/dashboard" (click)="sidenav.toggle()">
+                <mat-icon>dashboard</mat-icon>
+                <span>Dashboard</span>
+            </button>
+            <button mat-button class="menu-button" routerLink="/admin/financeiro-cadastro" (click)="sidenav.toggle()">
+                <mat-icon>article</mat-icon>
+                <span>Cadastro</span>
+            </button>
+            <button mat-button class="menu-button" routerLink="/admin/financeiro-consulta" (click)="sidenav.toggle()">
+                <mat-icon>list</mat-icon>
+                <span>Consulta</span>
+            </button>
+
+            <mat-divider></mat-divider>
+
+            <button mat-button class="menu-button" (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                <span>Sair</span>
+            </button>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="content mat-elevation-z8">
+                <router-outlet></router-outlet>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
+
+<div *ngIf="!auth">
+    <router-outlet></router-outlet>
+</div>
+

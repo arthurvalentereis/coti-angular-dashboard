@@ -36,3 +36,9 @@ ng g component home/components/login
 ng g component admin/components/dashboard
 
 ng g module home/material
+
+
+Admin user
+
+user :  admin@admin.com
+pass :  admin123456
